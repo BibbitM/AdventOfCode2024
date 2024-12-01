@@ -1,2 +1,3 @@
-# AdventOfCode2024
-Solutions of the Advent of Code 2024 challenge: https://adventofcode.com/2024
+# Advent Of Code 2021 results
+Day 01: The total distance is **2113135**  
+Day 01: The similarity score is **19097157**  

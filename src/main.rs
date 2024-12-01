@@ -4,8 +4,7 @@ use std::io;
 mod day_01;
 
 fn main() -> io::Result<()> {
-
-    println!("# AdventOfCode2021 results");
+    println!("# Advent Of Code 2021 results");
 
     // Day 01
     {
@@ -24,12 +23,12 @@ fn main() -> io::Result<()> {
         let total_distance = day_01::sum_distances(&array1, &array2);
 
         // Print the total distance to the output
-        println!("day_01: The total distance is {}  ", total_distance);
+        println!("Day 01: The total distance is **{}**  ", total_distance);
 
         let total_similarity = day_01::sum_similarities(&array1, &array2);
 
         // Print the total similarity to the output
-        println!("day_01: The similarity score is {}  ", total_similarity);
+        println!("Day 01: The similarity score is **{}**  ", total_similarity);
     }
 
     Ok(())
