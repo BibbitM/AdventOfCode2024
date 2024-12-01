@@ -25,6 +25,11 @@ fn main() -> io::Result<()> {
 
         // Print the total distance to the output
         println!("day_01: The total distance is {}  ", total_distance);
+
+        let total_similarity = day_01::sum_similarities(&array1, &array2);
+
+        // Print the total similarity to the output
+        println!("day_01: The similarity score is {}  ", total_similarity);
     }
 
     Ok(())
