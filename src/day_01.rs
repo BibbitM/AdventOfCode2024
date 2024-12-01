@@ -4,7 +4,7 @@ pub fn calculate_distance(a: i32, b: i32) -> i32 {
     (a - b).abs()
 }
 
-pub fn calulate_similarity(a: i32, count1: i32, count2: i32) -> i32 {
+pub fn calculate_similarity(a: i32, count1: i32, count2: i32) -> i32 {
     a * count1 * count2
 }
 
@@ -51,7 +51,7 @@ pub fn sum_similarities(array1: &[i32], array2: &[i32]) -> i32 {
                 index2 += 1;
             }
 
-            total_similarity += calulate_similarity(number, count1, count2);
+            total_similarity += calculate_similarity(number, count1, count2);
         }
     }
 
@@ -97,10 +97,10 @@ mod tests {
 
     #[test]
     fn test_calculate_similarity() {
-        assert_eq!(calulate_similarity(5, 3, 2), 30);
-        assert_eq!(calulate_similarity(3, 5, 2), 30);
-        assert_eq!(calulate_similarity(-4, 6, 10), -240);
-        assert_eq!(calulate_similarity(10, 10, 0), 0);
+        assert_eq!(calculate_similarity(5, 3, 2), 30);
+        assert_eq!(calculate_similarity(3, 5, 2), 30);
+        assert_eq!(calculate_similarity(-4, 6, 10), -240);
+        assert_eq!(calculate_similarity(10, 10, 0), 0);
     }
 
     #[test]
