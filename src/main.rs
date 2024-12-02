@@ -44,6 +44,9 @@ fn main() -> io::Result<()> {
 
         let safe_reports = day_02::count_safe_reports(&reports);
         println!("Day 02: The number of safe reports is **{}**  ", safe_reports);
+
+        let safe_reports_with_tolerance = day_02::count_safe_reports_with_tolerance(&reports);
+        println!("Day 02: The number of safe reports with tolerance is **{}**  ", safe_reports_with_tolerance);
     }
 
     Ok(())
