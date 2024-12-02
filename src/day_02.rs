@@ -16,6 +16,11 @@ pub fn parse_reports<R: BufRead>(reader: R) -> Vec<Vec<i32>> {
     return reports;
 }
 
+fn check_diff(report: &Vec<i32>, first: usize, second: usize) -> bool {
+    let diff = report[first] - report[second];
+    return diff > 0 && diff <= 3;
+}
+
 pub fn is_safe_report(report: &Vec<i32>) -> bool {
     if report.len() == 0 {
         return false;
@@ -27,16 +32,14 @@ pub fn is_safe_report(report: &Vec<i32>) -> bool {
 
     if report[0] < report[1] {
         for i in 1..report.len() {
-            let diff = report[i] - report[i - 1];
-            if diff <= 0 || diff > 3 {
+            if !check_diff(report, i, i - 1) {
                 return false;
             }
         }
     }
     else {
         for i in 1..report.len() {
-            let diff = report[i - 1] - report[i];
-            if diff <= 0 || diff > 3 {
+            if !check_diff(report, i - 1, i) {
                 return false;
             }
         }
@@ -53,69 +56,47 @@ pub fn is_safe_report_with_tolerance(report: &Vec<i32>) -> bool {
         return true;
     }
 
-    if report.len() < 2 {
+    fn check_modified_report(report: &Vec<i32>, index: usize) -> bool {
+        let mut modified_report = report.clone();
+        modified_report.remove(index);
+        return is_safe_report(&modified_report)
+    }
+    fn check_all_variants_of_modification(report: &Vec<i32>, first: usize, second: usize) -> bool {
+        // Check if the report is safe after removing the first element.
+        if check_modified_report(report, first) {
+            return true;
+        }
+        // Check if the report is safe after removing the second element.
+        if check_modified_report(report, second) {
+            return true;
+        }
+
+        // Check if the report is safe after removing the 0 index.
+        // We check this only if it is the second pair and we have a negative diff.
+        // It may happen that after removing the first element the report is now increasing instead of decreasing.
+        if std::cmp::min(first, second) == 1 {
+            let diff = report[first] - report[second];
+            if diff < 0 {
+                if check_modified_report(report, 0) {
+                    return true;
+                }
+            }
+        }
+
         return false;
     }
 
     if report[0] < report[1] {
         for i in 1..report.len() {
-            let diff = report[i] - report[i - 1];
-            if diff <= 0 || diff > 3 {
-                // Remove the element at index i and check if the report is safe
-                let mut modified_report = report.clone();
-                modified_report.remove(i);
-                if is_safe_report(&modified_report) {
-                    return true;
-                }
-                // Remove the element at index i - 1 and check if the report is safe
-                modified_report = report.clone();
-                modified_report.remove(i - 1);
-                if is_safe_report(&modified_report) {
-                    return true;
-                }
-                // Remove the element at index 0 if checking between the index 2
-                // and the diff is negative
-                if i == 2 && diff < 0 {
-                    modified_report = report.clone();
-                    modified_report.remove(0);
-                    if is_safe_report(&modified_report) {
-                        return true;
-                    }
-                }
-
-                // Check only the first problem
-                return false;
+            if !check_diff(report, i, i - 1) {
+                return check_all_variants_of_modification(report, i, i - 1);
             }
         }
     }
     else {
         for i in 1..report.len() {
-            let diff = report[i - 1] - report[i];
-            if diff <= 0 || diff > 3 {
-                // Remove the element at index i and check if the report is safe
-                let mut modified_report = report.clone();
-                modified_report.remove(i);
-                if is_safe_report(&modified_report) {
-                    return true;
-                }
-                // Remove the element at index i - 1 and check if the report is safe
-                modified_report = report.clone();
-                modified_report.remove(i - 1);
-                if is_safe_report(&modified_report) {
-                    return true;
-                }
-                // Remove the element at index 0 if checking between the index 2
-                // and the diff is negative
-                if i == 2 && diff < 0 {
-                    modified_report = report.clone();
-                    modified_report.remove(0);
-                    if is_safe_report(&modified_report) {
-                        return true;
-                    }
-                }
-
-                // Check only the first problem
-                return false;
+            if !check_diff(report, i - 1, i) {
+                return check_all_variants_of_modification(report, i - 1, i);
             }
         }
     }
