@@ -2,7 +2,7 @@
 
 pub fn parse_instructions(input: &str) -> Vec<(i32, i32)> {
     let re = Regex::new(r"mul\((\d{1,3}),(\d{1,3})\)").unwrap();
-    let mut results : Vec<(i32,i32)> = Vec::new();
+    let mut results: Vec<(i32, i32)> = Vec::new();
     for captures in re.captures_iter(input) {
         if let (Some(a), Some(b)) = (captures.get(1), captures.get(2)) {
             if let (Ok(a), Ok(b)) = (a.as_str().parse::<i32>(), b.as_str().parse::<i32>()) {
@@ -15,16 +15,14 @@ pub fn parse_instructions(input: &str) -> Vec<(i32, i32)> {
 
 pub fn parse_instructions_with_do(input: &str) -> Vec<(i32, i32)> {
     let re = Regex::new(r"mul\((\d{1,3}),(\d{1,3})\)|(do\(\))|(don't\(\))").unwrap();
-    let mut results : Vec<(i32,i32)> = Vec::new();
+    let mut results: Vec<(i32, i32)> = Vec::new();
     let mut do_mul = true;
     for captures in re.captures_iter(input) {
         if let Some(_) = captures.get(3) {
             do_mul = true;
-        }
-        else if let Some(_) = captures.get(4) {
+        } else if let Some(_) = captures.get(4) {
             do_mul = false;
-        }
-        else if do_mul {
+        } else if do_mul {
             if let (Some(a), Some(b)) = (captures.get(1), captures.get(2)) {
                 if let (Ok(a), Ok(b)) = (a.as_str().parse::<i32>(), b.as_str().parse::<i32>()) {
                     results.push((a, b));
@@ -55,7 +53,8 @@ mod tests {
 
     #[test]
     fn test_parse_instructions_example() {
-        assert_eq!(parse_instructions("xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))"), [(2, 4), (5, 5), (11, 8), (8, 5)]);
+        let input = "xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))";
+        assert_eq!(parse_instructions(input), [(2, 4), (5, 5), (11, 8), (8, 5)]);
     }
 
     #[test]
@@ -66,7 +65,8 @@ mod tests {
 
     #[test]
     fn test_parse_instructions_with_do_example() {
-        assert_eq!(parse_instructions_with_do("xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))"), [(2, 4), (8, 5)]);
+        let input = "xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))";
+        assert_eq!(parse_instructions_with_do(input), [(2, 4), (8, 5)]);
     }
 
     #[test]

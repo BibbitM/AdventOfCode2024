@@ -80,7 +80,6 @@ pub fn parse_numbers<R: BufRead>(reader: R) -> (Vec<i32>, Vec<i32>) {
     (array1, array2)
 }
 
-
 // Test the function
 #[cfg(test)]
 mod tests {

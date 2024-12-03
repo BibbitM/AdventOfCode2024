@@ -5,10 +5,7 @@ pub fn parse_reports<R: BufRead>(reader: R) -> Vec<Vec<i32>> {
 
     for line in reader.lines() {
         if let Ok(line_str) = line {
-            let numbers: Vec<i32> = line_str
-                .split_whitespace()
-                .filter_map(|s| s.parse::<i32>().ok())
-                .collect();
+            let numbers: Vec<i32> = line_str.split_whitespace().filter_map(|s| s.parse::<i32>().ok()).collect();
             reports.push(numbers);
         }
     }
@@ -36,8 +33,7 @@ pub fn is_safe_report(report: &Vec<i32>) -> bool {
                 return false;
             }
         }
-    }
-    else {
+    } else {
         for i in 1..report.len() {
             if !check_diff(report, i - 1, i) {
                 return false;
@@ -59,7 +55,7 @@ pub fn is_safe_report_with_tolerance(report: &Vec<i32>) -> bool {
     fn check_modified_report(report: &Vec<i32>, index: usize) -> bool {
         let mut modified_report = report.clone();
         modified_report.remove(index);
-        return is_safe_report(&modified_report)
+        return is_safe_report(&modified_report);
     }
     fn check_all_variants_of_modification(report: &Vec<i32>, first: usize, second: usize) -> bool {
         // Check if the report is safe after removing the first element.
@@ -92,8 +88,7 @@ pub fn is_safe_report_with_tolerance(report: &Vec<i32>) -> bool {
                 return check_all_variants_of_modification(report, i, i - 1);
             }
         }
-    }
-    else {
+    } else {
         for i in 1..report.len() {
             if !check_diff(report, i - 1, i) {
                 return check_all_variants_of_modification(report, i - 1, i);
