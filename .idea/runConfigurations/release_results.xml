@@ -1,0 +1,13 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="release_results" type="BatchConfigurationType" factoryName="Batch">
+    <module name="AdventOfCode2024" />
+    <option name="INTERPRETER_OPTIONS" value="" />
+    <option name="WORKING_DIRECTORY" value="./tools" />
+    <option name="PARENT_ENVS" value="true" />
+    <option name="SCRIPT_NAME" value="release_results.bat" />
+    <option name="PARAMETERS" value="" />
+    <method v="2">
+      <option name="RunConfigurationTask" enabled="true" run_configuration_name="Run" run_configuration_type="CargoCommandRunConfiguration" run_configuration_target="RsBuildProfile:release" />
+    </method>
+  </configuration>
+</component>
