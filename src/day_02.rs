@@ -18,6 +18,31 @@ fn check_diff(report: &Vec<i32>, first: usize, second: usize) -> bool {
     return diff > 0 && diff <= 3;
 }
 
+fn is_safe_report_ignoring_single(report: &Vec<i32>, ignore: usize) -> bool {
+    #[inline]
+    fn get_index(i: usize, ignore: usize) -> usize {
+        if i >= ignore {
+            return i + 1;
+        }
+        return i;
+    }
+
+    if report[get_index(0, ignore)] < report[get_index(1, ignore)] {
+        for i in 1..report.len() - 1 {
+            if !check_diff(report, get_index(i, ignore), get_index(i - 1, ignore)) {
+                return false;
+            }
+        }
+    } else {
+        for i in 1..report.len() - 1 {
+            if !check_diff(report, get_index(i - 1, ignore), get_index(i, ignore)) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
 pub fn is_safe_report(report: &Vec<i32>) -> bool {
     if report.len() == 0 {
         return false;
@@ -52,18 +77,13 @@ pub fn is_safe_report_with_tolerance(report: &Vec<i32>) -> bool {
         return true;
     }
 
-    fn check_modified_report(report: &Vec<i32>, index: usize) -> bool {
-        let mut modified_report = report.clone();
-        modified_report.remove(index);
-        return is_safe_report(&modified_report);
-    }
     fn check_all_variants_of_modification(report: &Vec<i32>, first: usize, second: usize) -> bool {
         // Check if the report is safe after removing the first element.
-        if check_modified_report(report, first) {
+        if is_safe_report_ignoring_single(report, first) {
             return true;
         }
         // Check if the report is safe after removing the second element.
-        if check_modified_report(report, second) {
+        if is_safe_report_ignoring_single(report, second) {
             return true;
         }
 
@@ -73,7 +93,7 @@ pub fn is_safe_report_with_tolerance(report: &Vec<i32>) -> bool {
         if std::cmp::min(first, second) == 1 {
             let diff = report[first] - report[second];
             if diff < 0 {
-                if check_modified_report(report, 0) {
+                if is_safe_report_ignoring_single(report, 0) {
                     return true;
                 }
             }
