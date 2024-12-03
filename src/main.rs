@@ -1,8 +1,9 @@
 use std::fs::File;
-use std::io;
+use std::{fs, io};
 
 mod day_01;
 mod day_02;
+mod day_03;
 
 fn main() -> io::Result<()> {
     println!("# Advent Of Code 2021 results");
@@ -47,6 +48,17 @@ fn main() -> io::Result<()> {
 
         let safe_reports_with_tolerance = day_02::count_safe_reports_with_tolerance(&reports);
         println!("Day 02: The number of safe reports with tolerance is **{}**  ", safe_reports_with_tolerance);
+    }
+
+    // Day 03
+    {
+        let input = "inputs\\day_03.txt";
+        let input = fs::read_to_string(input).expect("Error: Failed to read file 'inputs\\day_03.txt'");
+
+        let instructions = day_03::parse_instructions(&input);
+
+        let sum = day_03::sum_instructions(&instructions);
+        println!("Day 03: The sum of multiplication of instructions is **{}**  ", sum);
     }
 
     Ok(())
