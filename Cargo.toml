@@ -3,5 +3,16 @@ name = "AdventOfCode2024"
 version = "0.1.0"
 edition = "2021"
 
+[lib]
+name = "day_02"
+path = "src/day_02.rs"
+
 [dependencies]
 regex = "1.11.1"
+
+[dev-dependencies]
+criterion = { version = "0.5.1", features = ["html_reports"] }
+
+[[bench]]
+name = "day_02_benchmark"
+harness = false
