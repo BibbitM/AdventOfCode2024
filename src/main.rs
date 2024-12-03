@@ -59,6 +59,11 @@ fn main() -> io::Result<()> {
 
         let sum = day_03::sum_instructions(&instructions);
         println!("Day 03: The sum of multiplication of instructions is **{}**  ", sum);
+
+        let instructions_with_do = day_03::parse_instructions_with_do(&input);
+
+        let sum_with_do = day_03::sum_instructions(&instructions_with_do);
+        println!("Day 03: The sum of multiplication of instructions of just enabled multiplications is **{}**  ", sum_with_do);
     }
 
     Ok(())
