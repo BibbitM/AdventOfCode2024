@@ -5,3 +5,4 @@ Day 02: The number of safe reports is **479**
 Day 02: The number of safe reports with tolerance is **531**  
 Day 03: The sum of multiplication of instructions is **165225049**  
 Day 03: The sum of multiplication of instructions of just enabled multiplications is **108830766**  
+Day 04: The word XMAS appears **2414** times  
