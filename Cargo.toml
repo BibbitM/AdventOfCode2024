@@ -4,8 +4,8 @@ version = "0.1.0"
 edition = "2021"
 
 [lib]
-name = "day_02"
-path = "src/day_02.rs"
+name = "advent"
+path = "lib/mod.rs"
 
 [dependencies]
 regex = "1.11.1"

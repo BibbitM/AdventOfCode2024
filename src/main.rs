@@ -1,9 +1,6 @@
+use advent::{day_01, day_02, day_03};
 use std::fs::File;
 use std::{fs, io};
-
-mod day_01;
-mod day_02;
-mod day_03;
 
 fn main() -> io::Result<()> {
     println!("# Advent Of Code 2021 results");

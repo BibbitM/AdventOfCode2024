@@ -1,5 +1,5 @@
-﻿use criterion::{criterion_group, criterion_main, Criterion};
-use day_02;
+﻿use advent::day_02;
+use criterion::{criterion_group, criterion_main, Criterion};
 use std::fs::File;
 use std::io;
 
