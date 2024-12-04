@@ -1,37 +1,40 @@
-﻿const XMAS: u32 = (('X' as u32) << 0) | (('M' as u32) << 8) | (('A' as u32) << 16) | (('S' as u32)  << 24);
-const XMAS_REVERSE: u32 = (('S' as u32) << 0) | (('A' as u32) << 8) | (('M' as u32) << 16) | (('X' as u32)  << 24);
+﻿const XMAS: u32 = (('X' as u32) << 0) | (('M' as u32) << 8) | (('A' as u32) << 16) | (('S' as u32) << 24);
+const XMAS_REVERSE: u32 = (('S' as u32) << 0) | (('A' as u32) << 8) | (('M' as u32) << 16) | (('X' as u32) << 24);
+
+const MAS: u32 = (('M' as u32) << 0) | (('A' as u32) << 8) | (('S' as u32) << 16);
+const MAS_REVERSE: u32 = (('S' as u32) << 0) | (('A' as u32) << 8) | (('M' as u32) << 16);
 
 pub struct WordSearch {
     words: String,
-    width: usize,
-    height: usize,
+    width: i32,
+    height: i32,
 }
 
 impl WordSearch {
     pub fn new(words: String) -> WordSearch {
-        let width = words.find('\n').unwrap();
-        let height = words.len() / (width + 1);
+        let width = words.find('\n').unwrap() as i32;
+        let height = (words.len() as i32) / (width + 1);
         WordSearch { words, width, height }
     }
 
-    fn get(&self, x: usize, y: usize) -> char {
-        if y >= self.height || x >= self.width {
+    fn get(&self, x: i32, y: i32) -> char {
+        if x < 0 || x >= self.width || y < 0 || y >= self.height {
             return 0 as char;
         }
 
-        return self.words.chars().nth(y * (self.width + 1) + x).unwrap()
+        return self.words.chars().nth((y * (self.width + 1) + x) as usize).unwrap();
     }
 
-    fn get_horizontal(&self, x: usize, y: usize) -> u32 {
+    fn get_horizontal(&self, x: i32, y: i32) -> u32 {
         let mut word = 0;
-        for ix in 0..4 {
+        for ix in 0..4i32 {
             word |= (self.get(x + ix, y) as u32) << (ix * 8);
         }
 
         return word;
     }
 
-    fn get_vertical(&self, x: usize, y: usize) -> u32 {
+    fn get_vertical(&self, x: i32, y: i32) -> u32 {
         let mut word = 0;
         for iy in 0..4 {
             word |= (self.get(x, y + iy) as u32) << (iy * 8);
@@ -39,7 +42,7 @@ impl WordSearch {
         return word;
     }
 
-    fn get_diagonal_right(&self, x: usize, y: usize) -> u32 {
+    fn get_diagonal_right(&self, x: i32, y: i32) -> u32 {
         let mut word = 0;
         for ixy in 0..4 {
             word |= (self.get(x + ixy, y + ixy) as u32) << (ixy * 8);
@@ -47,10 +50,26 @@ impl WordSearch {
         return word;
     }
 
-    fn get_diagonal_left(&self, x: usize, y: usize) -> u32 {
+    fn get_diagonal_left(&self, x: i32, y: i32) -> u32 {
         let mut word = 0;
         for ixy in 0..4 {
             word |= (self.get(x - ixy, y + ixy) as u32) << (ixy * 8);
+        }
+        return word;
+    }
+
+    fn get_x_diagonal_right(&self, x: i32, y: i32) -> u32 {
+        let mut word = 0;
+        for ixy in 0..3 {
+            word |= (self.get(x - 1 + ixy, y - 1 + ixy) as u32) << (ixy * 8);
+        }
+        return word;
+    }
+
+    fn get_x_diagonal_left(&self, x: i32, y: i32) -> u32 {
+        let mut word = 0;
+        for ixy in 0..3 {
+            word |= (self.get(x + 1 - ixy, y - 1 + ixy) as u32) << (ixy * 8);
         }
         return word;
     }
@@ -73,6 +92,20 @@ impl WordSearch {
                 }
                 let diagonal_left = self.get_diagonal_left(x, y);
                 if diagonal_left == XMAS || diagonal_left == XMAS_REVERSE {
+                    count += 1;
+                }
+            }
+        }
+        return count;
+    }
+
+    pub fn count_mas_diagonal(&self) -> usize {
+        let mut count = 0;
+        for y in 0..self.height {
+            for x in 0..self.width {
+                let diagonal_right = self.get_x_diagonal_right(x, y);
+                let diagonal_left = self.get_x_diagonal_left(x, y);
+                if (diagonal_right == MAS || diagonal_right == MAS_REVERSE) && (diagonal_left == MAS || diagonal_left == MAS_REVERSE) {
                     count += 1;
                 }
             }
@@ -144,8 +177,52 @@ SMSMSASXSS
 SAXAMASAAA
 MAMMMXMMMM
 MXMXAXMASX
-"#.to_string();
+"#
+        .to_string();
         let ws = WordSearch::new(words);
         assert_eq!(ws.count_xmas(), 18);
+    }
+
+    #[test]
+    fn test_count_max_diagonal() {
+        let words = "MAS\nMAS\nMXS\n".to_string();
+        let ws = WordSearch::new(words);
+        assert_eq!(ws.count_mas_diagonal(), 1);
+    }
+
+    #[test]
+    fn test_count_mas_diagonal_example() {
+        let words = r#"MMMSXXMASM
+MSAMXMSMSA
+AMXSXMAAMM
+MSAMASMSMX
+XMASAMXAMM
+XXAMMXXAMA
+SMSMSASXSS
+SAXAMASAAA
+MAMMMXMMMM
+MXMXAXMASX
+"#
+        .to_string();
+        let ws = WordSearch::new(words);
+        assert_eq!(ws.count_mas_diagonal(), 9);
+    }
+
+    #[test]
+    fn test_count_mas_diagonal_example_dot() {
+        let words = r#".M.S......
+..A..MSMS.
+.M.S.MAA..
+..A.ASMSM.
+.M.S.M....
+..........
+S.S.S.S.S.
+.A.A.A.A..
+M.M.M.M.M.
+..........
+"#
+        .to_string();
+        let ws = WordSearch::new(words);
+        assert_eq!(ws.count_mas_diagonal(), 9);
     }
 }

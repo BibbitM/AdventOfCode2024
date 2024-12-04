@@ -72,6 +72,9 @@ fn main() -> io::Result<()> {
 
         let xmas_count = word_search.count_xmas();
         println!("Day 04: The word XMAS appears **{}** times  ", xmas_count);
+
+        let mas_diagonal_count = word_search.count_mas_diagonal();
+        println!("Day 04: The word MAS appears diagonally **{}** times  ", mas_diagonal_count);
     }
 
     Ok(())
