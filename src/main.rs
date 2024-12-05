@@ -1,4 +1,4 @@
-use advent::{day_01, day_02, day_03, day_04};
+use advent::{day_01, day_02, day_03, day_04, day_05};
 use std::fs::File;
 use std::{fs, io};
 
@@ -75,6 +75,24 @@ fn main() -> io::Result<()> {
 
         let mas_diagonal_count = word_search.count_mas_diagonal();
         println!("Day 04: The word MAS appears diagonally **{}** times  ", mas_diagonal_count);
+    }
+
+    // Day 05
+    {
+        let input = "inputs\\day_05.txt";
+        let file = match File::open(&input) {
+            Ok(file) => file,
+            Err(e) => {
+                eprintln!("Error: Failed to open file '{}': {}", input, e);
+                return Err(e);
+            }
+        };
+
+        let reader = io::BufReader::new(file);
+        let (page_ordering_rules, pages_to_produce) = day_05::parse_pages(reader);
+
+        let sum_of_correct_middle_pages = day_05::sum_of_correct_middle_pages(&page_ordering_rules, &pages_to_produce);
+        println!("Day 05: The sum of correct middle pages is **{}**  ", sum_of_correct_middle_pages);
     }
 
     Ok(())
