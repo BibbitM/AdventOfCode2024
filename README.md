@@ -7,4 +7,5 @@ Day 03: The sum of multiplication of instructions is **165225049**
 Day 03: The sum of multiplication of instructions of just enabled multiplications is **108830766**  
 Day 04: The word XMAS appears **2414** times  
 Day 04: The word MAS appears diagonally **1871** times  
-Day 05: The sum of correct middle pages is **5955**  
+Day 05: The sum of valid middle pages is **5955**  
+Day 05: The sum of corrected middle pages is **4030**  

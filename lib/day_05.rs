@@ -42,17 +42,45 @@ fn check_page_rules(page_ordering_rules: &Vec<(i32, i32)>, page: &Vec<i32>) -> b
     return true;
 }
 
-fn get_middle_page(page: Vec<i32>) -> i32 {
+fn get_middle_page(page: &Vec<i32>) -> i32 {
     let middle_page_idx = page.len() / 2;
     return page[middle_page_idx];
 }
 
-pub fn sum_of_correct_middle_pages(page_ordering_rules: &Vec<(i32, i32)>, pages_to_produce: &Vec<Vec<i32>>) -> i32 {
+fn correct_page_order(page_ordering_rules: &Vec<(i32, i32)>, page: &Vec<i32>) -> Vec<i32> {
+    let mut page = page.clone();
+
+    for i in 0..page.len() - 1 {
+        for j in i + 1..page.len() {
+            let page_pair = (page[j], page[i]);
+            if page_ordering_rules.contains(&page_pair) {
+                page.swap(i, j);
+                continue;
+            }
+        }
+    }
+
+    return page;
+}
+
+pub fn sum_of_valid_middle_pages(page_ordering_rules: &Vec<(i32, i32)>, pages_to_produce: &Vec<Vec<i32>>) -> i32 {
     let mut sum = 0;
 
     for page in pages_to_produce {
         if check_page_rules(page_ordering_rules, page) {
-            sum += get_middle_page(page.to_vec());
+            sum += get_middle_page(&page.to_vec());
+        }
+    }
+
+    return sum;
+}
+
+pub fn sum_of_corrected_middle_pages(page_ordering_rules: &Vec<(i32, i32)>, pages_to_produce: &Vec<Vec<i32>>) -> i32 {
+    let mut sum = 0;
+
+    for page in pages_to_produce {
+        if !check_page_rules(page_ordering_rules, page) {
+            sum += get_middle_page(&correct_page_order(&page_ordering_rules, &page));
         }
     }
 
@@ -118,16 +146,39 @@ mod tests {
 
     #[test]
     fn test_get_middle_page() {
-        assert_eq!(get_middle_page(vec![75, 47, 61, 53, 29]), 61);
-        assert_eq!(get_middle_page(vec![97, 61, 53, 29, 13]), 53);
-        assert_eq!(get_middle_page(vec![75, 29, 13]), 29);
+        assert_eq!(get_middle_page(&vec![75, 47, 61, 53, 29]), 61);
+        assert_eq!(get_middle_page(&vec![97, 61, 53, 29, 13]), 53);
+        assert_eq!(get_middle_page(&vec![75, 29, 13]), 29);
     }
 
     #[test]
-    fn test_get_sum_of_correct_middle_pages_example() {
+    fn test_sum_of_valid_middle_pages_example() {
         let cursor = Cursor::new(EXAMPLE_INPUT);
         let (page_ordering_rules, pages_to_produce) = parse_pages(cursor);
 
-        assert_eq!(sum_of_correct_middle_pages(&page_ordering_rules, &pages_to_produce), 143);
+        assert_eq!(sum_of_valid_middle_pages(&page_ordering_rules, &pages_to_produce), 143);
+    }
+
+    #[test]
+    fn test_correct_page_order() {
+        let cursor = Cursor::new(EXAMPLE_INPUT);
+        let (page_ordering_rules, _) = parse_pages(cursor);
+
+        // Correct.
+        assert_eq!(correct_page_order(&page_ordering_rules, &vec![75, 47, 61, 53, 29]), vec![75, 47, 61, 53, 29]);
+        assert_eq!(correct_page_order(&page_ordering_rules, &vec![97, 61, 53, 29, 13]), vec![97, 61, 53, 29, 13]);
+        assert_eq!(correct_page_order(&page_ordering_rules, &vec![75, 29, 13]), vec![75, 29, 13]);
+        // Incorrect.
+        assert_eq!(correct_page_order(&page_ordering_rules, &vec![75, 97, 47, 61, 53]), vec![97, 75, 47, 61, 53]);
+        assert_eq!(correct_page_order(&page_ordering_rules, &vec![61, 13, 29]), vec![61, 29, 13]);
+        assert_eq!(correct_page_order(&page_ordering_rules, &vec![97, 13, 75, 29, 47]), vec![97, 75, 47, 29, 13]);
+    }
+
+    #[test]
+    fn test_sum_of_corrected_middle_pages_example() {
+        let cursor = Cursor::new(EXAMPLE_INPUT);
+        let (page_ordering_rules, pages_to_produce) = parse_pages(cursor);
+
+        assert_eq!(sum_of_corrected_middle_pages(&page_ordering_rules, &pages_to_produce), 123);
     }
 }

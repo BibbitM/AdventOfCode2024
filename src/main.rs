@@ -91,8 +91,11 @@ fn main() -> io::Result<()> {
         let reader = io::BufReader::new(file);
         let (page_ordering_rules, pages_to_produce) = day_05::parse_pages(reader);
 
-        let sum_of_correct_middle_pages = day_05::sum_of_correct_middle_pages(&page_ordering_rules, &pages_to_produce);
-        println!("Day 05: The sum of correct middle pages is **{}**  ", sum_of_correct_middle_pages);
+        let sum_of_valid_middle_pages = day_05::sum_of_valid_middle_pages(&page_ordering_rules, &pages_to_produce);
+        println!("Day 05: The sum of valid middle pages is **{}**  ", sum_of_valid_middle_pages);
+
+        let sum_of_corrected_middle_pages = day_05::sum_of_corrected_middle_pages(&page_ordering_rules, &pages_to_produce);
+        println!("Day 05: The sum of corrected middle pages is **{}**  ", sum_of_corrected_middle_pages);
     }
 
     Ok(())
