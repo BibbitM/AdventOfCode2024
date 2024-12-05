@@ -94,8 +94,12 @@ fn main() -> io::Result<()> {
         let sum_of_valid_middle_pages = day_05::sum_of_valid_middle_pages(&page_ordering_rules, &pages_to_produce);
         println!("Day 05: The sum of valid middle pages is **{}**  ", sum_of_valid_middle_pages);
 
-        let sum_of_corrected_middle_pages = day_05::sum_of_corrected_middle_pages(&page_ordering_rules, &pages_to_produce);
-        println!("Day 05: The sum of corrected middle pages is **{}**  ", sum_of_corrected_middle_pages);
+        let mut pages_to_produce = pages_to_produce;
+        day_05::correct_pages_to_produce(&page_ordering_rules, &mut pages_to_produce);
+
+        // After correction, all pages are valid
+        let sum_of_all_middle_pages = day_05::sum_of_all_middle_pages(&pages_to_produce);
+        println!("Day 05: The sum of corrected middle pages is **{}**  ", sum_of_all_middle_pages - sum_of_valid_middle_pages);
     }
 
     Ok(())
