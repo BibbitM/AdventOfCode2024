@@ -66,10 +66,10 @@ fn main() -> io::Result<()> {
 
         let word_search = day_04::WordSearch::new(input);
 
-        let xmas_count = word_search.count_xmas();
+        let xmas_count = word_search.count_xmas_check_xs();
         println!("Day 04: The word XMAS appears **{}** times  ", xmas_count);
 
-        let mas_diagonal_count = word_search.count_mas_diagonal();
+        let mas_diagonal_count = word_search.count_mas_diagonal_check_mask();
         println!("Day 04: The word MAS appears diagonally **{}** times  ", mas_diagonal_count);
     }
 
