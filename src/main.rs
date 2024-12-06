@@ -52,14 +52,10 @@ fn main() -> io::Result<()> {
         let input = "inputs\\day_03.txt";
         let input = fs::read_to_string(input).expect("Error: Failed to read file 'inputs\\day_03.txt'");
 
-        let instructions = day_03::parse_instructions(&input);
-
-        let sum = day_03::sum_instructions(&instructions);
+        let sum = day_03::parse_instructions_no_regex_and_sum(&input);
         println!("Day 03: The sum of multiplication of instructions is **{}**  ", sum);
 
-        let instructions_with_do = day_03::parse_instructions_with_do(&input);
-
-        let sum_with_do = day_03::sum_instructions(&instructions_with_do);
+        let sum_with_do = day_03::parse_instructions_with_do_no_regex_and_sum(&input);
         println!("Day 03: The sum of multiplication of instructions of just enabled multiplications is **{}**  ", sum_with_do);
     }
 
