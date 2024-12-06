@@ -108,9 +108,13 @@ fn main() -> io::Result<()> {
         let input = fs::read_to_string(input).expect("Error: Failed to read file 'inputs\\day_06.txt'");
 
         let mut guard_map = day_06::GuardMap::new(input);
+        let mut guard_map_to_block = guard_map.clone();
 
         let dinstinct_positions = day_06::move_guard(&mut guard_map);
         println!("Day 06: The guard visited **{}** distinct positions  ", dinstinct_positions);
+
+        let obstruction_positions = day_06::block_guard(&mut guard_map_to_block);
+        println!("Day 06: The guard can be looped with **{}** obstruction positions  ", obstruction_positions);
     }
 
     Ok(())
