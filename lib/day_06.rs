@@ -122,7 +122,6 @@ fn move_guard_check_loop(guard_map: &mut GuardMap, x: i32, y: i32, dir_bit: i32)
         if guard_map.get(next_x, next_y) != '#' {
             x = next_x;
             y = next_y;
-
         } else {
             (dir_x, dir_y) = (-dir_y, dir_x);
             dir_bit = (dir_bit + 1) % 4;
@@ -165,7 +164,6 @@ pub fn block_guard(guard_map: &mut GuardMap) -> usize {
     }
     return obstruction_positions;
 }
-
 
 #[cfg(test)]
 mod tests {
