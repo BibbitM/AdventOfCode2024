@@ -113,7 +113,7 @@ fn main() -> io::Result<()> {
         let dinstinct_positions = day_06::move_guard(&mut guard_map);
         println!("Day 06: The guard visited **{}** distinct positions  ", dinstinct_positions);
 
-        let obstruction_positions = day_06::block_guard(&mut guard_map_to_block);
+        let obstruction_positions = day_06::block_guard_assign_map(&mut guard_map_to_block);
         println!("Day 06: The guard can be looped with **{}** obstruction positions  ", obstruction_positions);
     }
 
