@@ -9,3 +9,4 @@ Day 04: The word XMAS appears **2414** times
 Day 04: The word MAS appears diagonally **1871** times  
 Day 05: The sum of valid middle pages is **5955**  
 Day 05: The sum of corrected middle pages is **4030**  
+Day 06: The guard visited **5145** distinct positions  

@@ -1,4 +1,4 @@
-use advent::{day_01, day_02, day_03, day_04, day_05};
+use advent::{day_01, day_02, day_03, day_04, day_05, day_06};
 use std::fs::File;
 use std::{fs, io};
 
@@ -100,6 +100,17 @@ fn main() -> io::Result<()> {
         // After correction, all pages are valid
         let sum_of_all_middle_pages = day_05::sum_of_all_middle_pages(&pages_to_produce);
         println!("Day 05: The sum of corrected middle pages is **{}**  ", sum_of_all_middle_pages - sum_of_valid_middle_pages);
+    }
+
+    // Day 06
+    {
+        let input = "inputs\\day_06.txt";
+        let input = fs::read_to_string(input).expect("Error: Failed to read file 'inputs\\day_06.txt'");
+
+        let mut guard_map = day_06::GuardMap::new(input);
+
+        let dinstinct_positions = day_06::move_guard(&mut guard_map);
+        println!("Day 06: The guard visited **{}** distinct positions  ", dinstinct_positions);
     }
 
     Ok(())
