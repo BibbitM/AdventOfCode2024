@@ -129,6 +129,9 @@ fn main() -> io::Result<()> {
 
         let sum = day_07::sum_can_calibrate_values(&equations);
         println!("Day 07: The total calibration result is **{}**  ", sum);
+
+        let sum = day_07::sum_can_calibrate_values_concat(&equations);
+        println!("Day 07: The total calibration result with concatenation is **{}**  ", sum);
     }
 
     Ok(())

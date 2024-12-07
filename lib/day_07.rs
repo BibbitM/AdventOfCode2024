@@ -45,29 +45,75 @@ fn can_calibrate_equation_operator(equation: &Equation, combined: i64, opt_idx: 
     let operand = equation.operands[opt_idx] as i64;
     // Check multiply operator.
     let combined_mul = combined * operand;
-    if combined_mul < equation.value {
-        if opt_idx + 1 < equation.operands.len() {
-            if can_calibrate_equation_operator(equation, combined_mul, opt_idx + 1) {
-                return true;
-            }
-        }
-    } else if combined_mul == equation.value {
-        if opt_idx + 1 == equation.operands.len() {
+    if combined_mul <= equation.value && opt_idx + 1 < equation.operands.len() {
+        if can_calibrate_equation_operator(equation, combined_mul, opt_idx + 1) {
             return true;
         }
+    } else if combined_mul == equation.value && opt_idx + 1 == equation.operands.len() {
+        return true;
     }
     // Check add operator.
     let combined_add = combined + operand;
-    if combined_add < equation.value {
-        if opt_idx + 1 < equation.operands.len() {
-            if can_calibrate_equation_operator(equation, combined_add, opt_idx + 1) {
-                return true;
-            }
-        }
-    } else if combined_add == equation.value {
-        if opt_idx + 1 == equation.operands.len() {
+    if combined_add <= equation.value && opt_idx + 1 < equation.operands.len() {
+        if can_calibrate_equation_operator(equation, combined_add, opt_idx + 1) {
             return true;
         }
+    } else if combined_add == equation.value && opt_idx + 1 == equation.operands.len() {
+        return true;
+    }
+
+    return false;
+}
+
+pub fn can_calibrate_equation_concat(equation: &Equation) -> bool {
+    let combined = equation.operands[0] as i64;
+    if combined > equation.value {
+        return false;
+    }
+    if equation.operands.len() == 1 {
+        return combined == equation.value;
+    }
+
+    return can_calibrate_equation_concat_operator(&equation, combined, 1);
+}
+
+#[inline]
+fn concatenate_numbers(a: i64, b: i64) -> i64 {
+    let mut mul = 1;
+    while mul <= b {
+        mul *= 10;
+    }
+    return a * mul + b;
+}
+
+fn can_calibrate_equation_concat_operator(equation: &Equation, combined: i64, opt_idx: usize) -> bool {
+    let operand = equation.operands[opt_idx] as i64;
+    // Check concatenation operator.
+    let combined_concat = concatenate_numbers(combined, operand);
+    if combined_concat <= equation.value && opt_idx + 1 < equation.operands.len() {
+        if can_calibrate_equation_concat_operator(equation, combined_concat, opt_idx + 1) {
+            return true;
+        }
+    } else if combined_concat == equation.value && opt_idx + 1 == equation.operands.len() {
+        return true;
+    }
+    // Check multiply operator.
+    let combined_mul = combined * operand;
+    if combined_mul <= equation.value && opt_idx + 1 < equation.operands.len() {
+        if can_calibrate_equation_concat_operator(equation, combined_mul, opt_idx + 1) {
+            return true;
+        }
+    } else if combined_mul == equation.value && opt_idx + 1 == equation.operands.len() {
+        return true;
+    }
+    // Check add operator.
+    let combined_add = combined + operand;
+    if combined_add <= equation.value && opt_idx + 1 < equation.operands.len() {
+        if can_calibrate_equation_concat_operator(equation, combined_add, opt_idx + 1) {
+            return true;
+        }
+    } else if combined_add == equation.value && opt_idx + 1 == equation.operands.len() {
+        return true;
     }
 
     return false;
@@ -77,6 +123,17 @@ pub fn sum_can_calibrate_values(equations: &Vec<Equation>) -> i64 {
     let mut sum = 0;
     for equation in equations {
         if can_calibrate_equation(&equation) {
+            sum += equation.value;
+        }
+    }
+
+    return sum;
+}
+
+pub fn sum_can_calibrate_values_concat(equations: &Vec<Equation>) -> i64 {
+    let mut sum = 0;
+    for equation in equations {
+        if can_calibrate_equation_concat(&equation) {
             sum += equation.value;
         }
     }
@@ -155,9 +212,37 @@ mod tests {
     }
 
     #[test]
+    fn test_can_calibrate_equation_concat_example() {
+        // 156: 15 6
+        let equation = Equation::new(156, vec![15, 6]);
+        let result = can_calibrate_equation_concat(&equation);
+        assert_eq!(result, true);
+        // 7290: 6 8 6 15
+        let equation = Equation::new(7290, vec![6, 8, 6, 15]);
+        let result = can_calibrate_equation_concat(&equation);
+        assert_eq!(result, true);
+        // 192: 17 8 14
+        let equation = Equation::new(192, vec![17, 8, 14]);
+        let result = can_calibrate_equation_concat(&equation);
+        assert_eq!(result, true);
+
+        //15: 8 2 5
+        let equation = Equation::new(15, vec![8, 2, 5]);
+        let result = can_calibrate_equation_concat(&equation);
+        assert_eq!(result, true);
+    }
+
+    #[test]
     fn test_sum_can_calibrate_values_example() {
         let cursor = Cursor::new(EXAMPLE_DATA);
         let equations = parse_equations(cursor);
         assert_eq!(sum_can_calibrate_values(&equations), 3749);
+    }
+
+    #[test]
+    fn test_sum_can_calibrate_values_concat_example() {
+        let cursor = Cursor::new(EXAMPLE_DATA);
+        let equations = parse_equations(cursor);
+        assert_eq!(sum_can_calibrate_values_concat(&equations), 11387);
     }
 }
