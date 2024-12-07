@@ -1,4 +1,4 @@
-use advent::{day_01, day_02, day_03, day_04, day_05, day_06};
+use advent::{day_01, day_02, day_03, day_04, day_05, day_06, day_07};
 use std::fs::File;
 use std::{fs, io};
 
@@ -111,6 +111,24 @@ fn main() -> io::Result<()> {
 
         let obstruction_positions = day_06::block_guard_assign_map(&mut guard_map_to_block);
         println!("Day 06: The guard can be looped with **{}** obstruction positions  ", obstruction_positions);
+    }
+
+    // Day 07
+    {
+        let input = "inputs\\day_07.txt";
+        let file = match File::open(&input) {
+            Ok(file) => file,
+            Err(e) => {
+                eprintln!("Error: Failed to open file '{}': {}", input, e);
+                return Err(e);
+            }
+        };
+
+        let reader = io::BufReader::new(file);
+        let equations = day_07::parse_equations(reader);
+
+        let sum = day_07::sum_can_calibrate_values(&equations);
+        println!("Day 07: The total calibration result is **{}**  ", sum);
     }
 
     Ok(())

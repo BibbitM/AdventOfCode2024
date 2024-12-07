@@ -11,3 +11,4 @@ Day 05: The sum of valid middle pages is **5955**
 Day 05: The sum of corrected middle pages is **4030**  
 Day 06: The guard visited **5145** distinct positions  
 Day 06: The guard can be looped with **1523** obstruction positions  
+Day 07: The total calibration result is **21572148763543**  
