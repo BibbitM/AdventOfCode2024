@@ -14,3 +14,4 @@ Day 06: The guard can be looped with **1523** obstruction positions
 Day 07: The total calibration result is **21572148763543**  
 Day 07: The total calibration result with concatenation is **581941094529163**  
 Day 08: The map contains **249** unique antinode locations  
+Day 08: The map contains **905** unique antinode locations in line  

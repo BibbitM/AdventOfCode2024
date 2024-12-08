@@ -142,9 +142,12 @@ fn main() -> io::Result<()> {
 
         let antennas_map = CharMap::new(input.to_string());
         let antennas = day_08::gather_antennas(&antennas_map);
-        let antinodes = day_08::find_antinodes(&antennas, &antennas_map);
 
+        let antinodes = day_08::find_antinodes(&antennas, &antennas_map);
         println!("Day 08: The map contains **{}** unique antinode locations  ", antinodes.len());
+
+        let antinodes_in_line = day_08::find_antinodes_in_line(&antennas, &antennas_map);
+        println!("Day 08: The map contains **{}** unique antinode locations in line  ", antinodes_in_line.len());
     }
 
     Ok(())

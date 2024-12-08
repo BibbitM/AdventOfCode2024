@@ -47,6 +47,81 @@ pub fn find_antinodes(antennas: &std::collections::HashMap<char, Vec<(i32, i32)>
     return antinodes;
 }
 
+fn gcd(mut a: i32, mut b: i32) -> i32 {
+    if a == 0 {
+        return b.abs();
+    }
+    if b == 0 {
+        return a.abs();
+    }
+    while b != 0 {
+        let temp = b;
+        b = a % b;
+        a = temp;
+    }
+    return a.abs();
+}
+pub fn find_antinodes_in_line(antennas: &std::collections::HashMap<char, Vec<(i32, i32)>>, antennas_map: &CharMap) -> Vec<(i32, i32)> {
+    let mut antinodes = Vec::new();
+
+    fn is_in_bounds(pos: &(i32, i32), antennas_map: &CharMap) -> bool {
+        return pos.0 >= 0 && pos.0 < antennas_map.width && pos.1 >= 0 && pos.1 < antennas_map.height;
+    }
+
+    for antenna in antennas.values() {
+        for i in 0..antenna.len() - 1 {
+            for j in i + 1..antenna.len() {
+                let antenna1 = antenna[i];
+                let antenna2 = antenna[j];
+
+                if !antinodes.contains(&antenna1) {
+                    antinodes.push(antenna1);
+                }
+                if !antinodes.contains(&antenna2) {
+                    antinodes.push(antenna2);
+                }
+
+                let offset = (antenna2.0 - antenna1.0, antenna2.1 - antenna1.1);
+                let count = gcd(offset.0, offset.1);
+                let offset = (offset.0 / count, offset.1 / count);
+
+                for n in 1..count {
+                    let antinode = (antenna1.0 + offset.0 * n, antenna1.1 + offset.1 * n);
+                    if !antinodes.contains(&antinode) {
+                        antinodes.push(antinode);
+                    }
+                }
+
+                let mut n = 1;
+                loop {
+                    let antinode = (antenna1.0 - offset.0 * n, antenna1.1 - offset.1 * n);
+                    if !is_in_bounds(&antinode, &antennas_map) {
+                        break;
+                    }
+                    if !antinodes.contains(&antinode) {
+                        antinodes.push(antinode);
+                    }
+                    n += 1;
+                }
+
+                let mut n = 1;
+                loop {
+                    let antinode = (antenna2.0 + offset.0 * n, antenna2.1 + offset.1 * n);
+                    if !is_in_bounds(&antinode, &antennas_map) {
+                        break;
+                    }
+                    if !antinodes.contains(&antinode) {
+                        antinodes.push(antinode);
+                    }
+                    n += 1;
+                }
+            }
+        }
+    }
+
+    return antinodes;
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -83,5 +158,14 @@ mod tests {
         let antinodes = find_antinodes(&antennas, &antennas_map);
 
         assert_eq!(antinodes.len(), 14);
+    }
+
+    #[test]
+    fn test_find_antinodes_in_line() {
+        let antennas_map = CharMap::new(EXAMPLE_INPUT.to_string());
+        let antennas = gather_antennas(&antennas_map);
+        let antinodes = find_antinodes_in_line(&antennas, &antennas_map);
+
+        assert_eq!(antinodes.len(), 34);
     }
 }
