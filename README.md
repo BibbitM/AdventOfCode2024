@@ -16,3 +16,4 @@ Day 07: The total calibration result with concatenation is **581941094529163**
 Day 08: The map contains **249** unique antinode locations  
 Day 08: The map contains **905** unique antinode locations in line  
 Day 09: The checksum of the filesystem is **6349606724455**  
+Day 09: After moving whole files the checksum of the filesystem is **6376648986651**  
