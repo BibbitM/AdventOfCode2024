@@ -1,5 +1,5 @@
 use advent::char_map::CharMap;
-use advent::{day_01, day_02, day_03, day_04, day_05, day_06, day_07, day_08};
+use advent::{day_01, day_02, day_03, day_04, day_05, day_06, day_07, day_08, day_09};
 use std::fs::File;
 use std::{fs, io};
 
@@ -148,6 +148,15 @@ fn main() -> io::Result<()> {
 
         let antinodes_in_line = day_08::find_antinodes_in_line_sort_dedup(&antennas, &antennas_map);
         println!("Day 08: The map contains **{}** unique antinode locations in line  ", antinodes_in_line.len());
+    }
+
+    // Day 09
+    {
+        let input = "inputs\\day_09.txt";
+        let input = fs::read_to_string(input).expect("Error: Failed to read file 'inputs\\day_09.txt'");
+
+        let checksum = day_09::calculate_filesystem_checksum(&input);
+        println!("Day 09: The checksum of the filesystem is **{}**  ", checksum);
     }
 
     Ok(())
