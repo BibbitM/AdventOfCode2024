@@ -14,5 +14,5 @@ regex = "1.11.1"
 criterion = { version = "0.5.1", features = ["html_reports"] }
 
 [[bench]]
-name = "day_08_benchmark"
+name = "day_09_benchmark"
 harness = false
