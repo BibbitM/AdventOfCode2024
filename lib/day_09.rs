@@ -225,16 +225,12 @@ pub fn calculate_filesystem_checksum_v2_optimized(disk_map: &Vec<char>) -> usize
     for file in files.iter_mut().rev() {
         // Find the first free space for the file length.
         let mut i_best = 0;
-        let mut best_pos = u32::MAX;
+        let mut best_pos = file.pos;
         for i in file.len..10 {
             if first_free_space_pos[i as usize] >= free_spaces.len() {
                 continue;
             }
             let free_space = &free_spaces[first_free_space_pos[i as usize]];
-            if free_space.pos >= file.pos {
-                continue;
-            }
-
             if free_space.pos < best_pos {
                 i_best = i;
                 best_pos = free_space.pos;
