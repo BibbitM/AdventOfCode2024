@@ -154,6 +154,7 @@ fn main() -> io::Result<()> {
     {
         let input = "inputs\\day_09.txt";
         let input = fs::read_to_string(input).expect("Error: Failed to read file 'inputs\\day_09.txt'");
+        let input = input.chars().collect();
 
         let checksum = day_09::calculate_filesystem_checksum(&input);
         println!("Day 09: The checksum of the filesystem is **{}**  ", checksum);

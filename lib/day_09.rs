@@ -1,7 +1,7 @@
-﻿pub fn calculate_filesystem_checksum(disk_map: &String) -> usize {
+﻿pub fn calculate_filesystem_checksum(disk_map: &Vec<char>) -> usize {
     #[inline]
-    fn get_disk_len(disk_map: &String, idx: usize) -> usize {
-        let c = disk_map.chars().nth(idx).unwrap();
+    fn get_disk_len(disk_map: &Vec<char>, idx: usize) -> usize {
+        let c = disk_map[idx];
         return c as usize - '0' as usize;
     }
     #[inline]
@@ -70,12 +70,12 @@
     return checksum;
 }
 
-pub fn calculate_filesystem_checksum_v2(disk_map: &String) -> usize {
+pub fn calculate_filesystem_checksum_v2(disk_map: &Vec<char>) -> usize {
     let mut file_map = Vec::new();
 
     #[inline]
-    fn get_disk_len(disk_map: &String, idx: usize) -> u32 {
-        let c = disk_map.chars().nth(idx).unwrap();
+    fn get_disk_len(disk_map: &Vec<char>, idx: usize) -> u32 {
+        let c = disk_map[idx];
         return c as u32 - '0' as u32;
     }
 
@@ -152,13 +152,13 @@ mod tests {
 
     #[test]
     fn test_calculate_filesystem_checksum_example() {
-        let input = EXAMPLE_INPUT.to_string();
+        let input = EXAMPLE_INPUT.to_string().chars().collect();
         assert_eq!(calculate_filesystem_checksum(&input), 1928);
     }
 
     #[test]
     fn test_calculate_filesystem_checksum_v2_example() {
-        let input = EXAMPLE_INPUT.to_string();
+        let input = EXAMPLE_INPUT.to_string().chars().collect();
         assert_eq!(calculate_filesystem_checksum_v2(&input), 2858);
     }
 }

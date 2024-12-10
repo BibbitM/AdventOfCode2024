@@ -5,6 +5,7 @@ use std::fs;
 fn day_09_part_one_benchmark(c: &mut Criterion) {
     let input = "inputs\\day_09.txt";
     let input = fs::read_to_string(input).expect("Error: Failed to read file 'inputs\\day_09.txt'");
+    let input = input.chars().collect();
 
     let mut group = c.benchmark_group("day_09__part_one");
 
@@ -14,6 +15,7 @@ fn day_09_part_one_benchmark(c: &mut Criterion) {
 fn day_09_part_two_benchmark_part_two(c: &mut Criterion) {
     let input = "inputs\\day_09.txt";
     let input = fs::read_to_string(input).expect("Error: Failed to read file 'inputs\\day_09.txt'");
+    let input = input.chars().collect();
 
     let mut group = c.benchmark_group("day_09__part_two");
 
