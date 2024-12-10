@@ -159,7 +159,7 @@ fn main() -> io::Result<()> {
         let checksum = day_09::calculate_filesystem_checksum(&input);
         println!("Day 09: The checksum of the filesystem is **{}**  ", checksum);
 
-        let checksum = day_09::calculate_filesystem_checksum_v2(&input);
+        let checksum = day_09::calculate_filesystem_checksum_v2_optimized(&input);
         println!("Day 09: After moving whole files the checksum of the filesystem is **{}**  ", checksum);
     }
 

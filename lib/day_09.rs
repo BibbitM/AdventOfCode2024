@@ -137,8 +137,132 @@ pub fn calculate_filesystem_checksum_v2(disk_map: &Vec<char>) -> usize {
         let file_len = file_map[i].1;
         let free_space = file_map[i].2;
         checksum += calculate_checksum(file_id, block_position, file_len);
+
         block_position += file_len;
         block_position += free_space;
+    }
+
+    return checksum;
+}
+
+pub fn calculate_filesystem_checksum_v2_optimized(disk_map: &Vec<char>) -> usize {
+    struct File {
+        id: usize,
+        pos: u32,
+        len: u32,
+    }
+    struct FreeSpace {
+        pos: u32,
+        len: u32,
+    }
+
+    #[inline]
+    fn get_disk_len(disk_map: &Vec<char>, idx: usize) -> u32 {
+        let c = disk_map[idx];
+        return c as u32 - '0' as u32;
+    }
+
+    #[inline]
+    fn sum_of_sequence(n: u32, count: u32) -> u32 {
+        // Calculate the last term in the sequence.
+        let last_term = n + count - 1;
+        // Calculate the number of terms.
+        let terms = count;
+        // Apply the arithmetic series formula.
+        terms * (n + last_term) / 2
+    }
+
+    #[inline]
+    fn calculate_checksum(file_id: usize, block_idx: u32, block_count: u32) -> usize {
+        return file_id * (sum_of_sequence(block_idx, block_count) as usize);
+    }
+
+    fn find_first_free_space(free_spaces: &Vec<FreeSpace>, start_i: usize, len: u32) -> usize {
+        for i in start_i..free_spaces.len() {
+            if i > 0 {
+                assert!(free_spaces[i - 1].pos + free_spaces[i - 1].len <= free_spaces[i].pos);
+            }
+            if free_spaces[i].len == len {
+                return i;
+            }
+        }
+        // Return npos if not found.
+        return free_spaces.len();
+    }
+
+    // Get all files and free spaces.
+    let mut files = Vec::new();
+    let mut free_spaces = Vec::new();
+
+    let last_file_id = (disk_map.len() + 1) / 2;
+    let mut file_pos = 0;
+    for file_id in 0..last_file_id {
+        let file_len = get_disk_len(disk_map, file_id * 2);
+        files.push(File {
+            id: file_id,
+            pos: file_pos,
+            len: file_len,
+        });
+        file_pos += file_len;
+
+        let free_space_len = if file_id * 2 + 1 < disk_map.len() { get_disk_len(disk_map, file_id * 2 + 1) } else { 0 };
+        if free_space_len > 0 {
+            free_spaces.push(FreeSpace {
+                pos: file_pos,
+                len: free_space_len,
+            });
+        }
+        file_pos += free_space_len;
+    }
+
+    // Find first free space for size 1-9
+    let mut first_free_space_pos: [usize; 10] = [0; 10];
+    for i in 0u32..10 {
+        first_free_space_pos[i as usize] = find_first_free_space(&free_spaces, 0, i);
+    }
+
+    // Process in loop all files starting from the last.
+    for file in files.iter_mut().rev() {
+        // Find the first free space for the file length.
+        let mut i_best = 0;
+        let mut best_pos = u32::MAX;
+        for i in file.len..10 {
+            if first_free_space_pos[i as usize] >= free_spaces.len() {
+                continue;
+            }
+            let free_space = &free_spaces[first_free_space_pos[i as usize]];
+            if free_space.pos >= file.pos {
+                continue;
+            }
+
+            if free_space.pos < best_pos {
+                i_best = i;
+                best_pos = free_space.pos;
+            }
+        }
+
+        if i_best > 0 {
+            let free_space = &mut free_spaces[first_free_space_pos[i_best as usize]];
+            // Move file to the free space.
+            file.pos = free_space.pos;
+
+            // Update the free space.
+            free_space.pos += file.len;
+            free_space.len -= file.len;
+
+            // Update the first free space for changed and current.
+            if free_space.len > 0 && first_free_space_pos[free_space.len as usize] > first_free_space_pos[i_best as usize] {
+                first_free_space_pos[free_space.len as usize] = first_free_space_pos[i_best as usize];
+            }
+
+            first_free_space_pos[i_best as usize] = find_first_free_space(&free_spaces, first_free_space_pos[i_best as usize], i_best);
+        }
+    }
+
+    // Calculate the checksum.
+    let mut checksum = 0;
+    for file in files {
+        checksum += calculate_checksum(file.id, file.pos, file.len);
     }
 
     return checksum;
@@ -160,5 +284,11 @@ mod tests {
     fn test_calculate_filesystem_checksum_v2_example() {
         let input = EXAMPLE_INPUT.to_string().chars().collect();
         assert_eq!(calculate_filesystem_checksum_v2(&input), 2858);
+    }
+
+    #[test]
+    fn test_calculate_filesystem_checksum_v2_optimized_example() {
+        let input = EXAMPLE_INPUT.to_string().chars().collect();
+        assert_eq!(calculate_filesystem_checksum_v2_optimized(&input), 2858);
     }
 }

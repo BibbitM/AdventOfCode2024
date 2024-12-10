@@ -20,6 +20,8 @@ fn day_09_part_two_benchmark_part_two(c: &mut Criterion) {
     let mut group = c.benchmark_group("day_09__part_two");
 
     group.bench_function("original", |b| b.iter(|| _ = day_09::calculate_filesystem_checksum_v2(&input)));
+
+    group.bench_function("optimized", |b| b.iter(|| _ = day_09::calculate_filesystem_checksum_v2_optimized(&input)));
 }
 
 criterion_group!(benches, day_09_part_one_benchmark, day_09_part_two_benchmark_part_two);
