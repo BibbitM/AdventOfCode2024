@@ -1,5 +1,5 @@
 use advent::char_map::CharMap;
-use advent::{day_01, day_02, day_03, day_04, day_05, day_06, day_07, day_08, day_09, day_10};
+use advent::{day_01, day_02, day_03, day_04, day_05, day_06, day_07, day_08, day_09, day_10, day_11};
 use std::fs::File;
 use std::{fs, io};
 
@@ -175,6 +175,17 @@ fn main() -> io::Result<()> {
 
         let sum_of_tailhead_ratings = day_10::calculate_sum_of_tailhead_ratings(&topographic_map);
         println!("Day 10: The sum of tailhead ratings is **{}**  ", sum_of_tailhead_ratings);
+    }
+
+    // Day 11
+    {
+        let input = "inputs\\day_11.txt";
+        let input = fs::read_to_string(input).expect("Error: Failed to read file 'inputs\\day_11.txt'");
+
+        let stones = day_11::parse_stones(&input);
+
+        let num_of_stones = day_11::calculate_number_of_stones_after_blinks(&stones, 25);
+        println!("Day 11: The number of stones after 25 blinks is **{}**  ", num_of_stones);
     }
 
     Ok(())
