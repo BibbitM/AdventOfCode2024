@@ -17,3 +17,5 @@ Day 08: The map contains **249** unique antinode locations
 Day 08: The map contains **905** unique antinode locations in line  
 Day 09: The checksum of the filesystem is **6349606724455**  
 Day 09: After moving whole files the checksum of the filesystem is **6376648986651**  
+Day 10: The sum of tailhead scores is **459**  
+Day 10: The sum of tailhead ratings is **1034**  

@@ -47,6 +47,42 @@ pub fn calculate_sum_of_tailhead_scores(map: &CharMap) -> usize {
     return sum;
 }
 
+fn find_tailhead_rating(map: &CharMap, start: Pos) -> usize {
+    assert_eq!(map.get(start.0, start.1), '0');
+
+    return find_tailhead_rating_recursive(&map, start, '1');
+}
+
+fn find_tailhead_rating_recursive(map: &CharMap, point: Pos, char_to_check: char) -> usize {
+    let mut rating = 0;
+
+    let next_char_to_check = (char_to_check as u8 + 1) as char;
+    for dir in DIRECTIONS.iter() {
+        let next_point = Pos(point.0 + dir.0, point.1 + dir.1);
+        if map.get(next_point.0, next_point.1) == char_to_check {
+            if char_to_check == '9' {
+                rating += 1;
+            } else {
+                rating += find_tailhead_rating_recursive(map, next_point, next_char_to_check);
+            }
+        }
+    }
+
+    return rating;
+}
+
+pub fn calculate_sum_of_tailhead_ratings(map: &CharMap) -> usize {
+    let mut sum = 0;
+    for y in 0..map.height {
+        for x in 0..map.width {
+            if map.get(x, y) == '0' {
+                sum += find_tailhead_rating(map, Pos(x, y));
+            }
+        }
+    }
+    return sum;
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -77,5 +113,18 @@ mod tests {
     fn test_calculate_sum_of_tailhead_scores_example() {
         let map = CharMap::new(EXAMPLE_INPUT.to_string());
         assert_eq!(calculate_sum_of_tailhead_scores(&map), 36);
+    }
+
+    #[test]
+    fn test_find_tailhead_rating() {
+        let map = CharMap::new(EXAMPLE_INPUT.to_string());
+        assert_eq!(find_tailhead_rating(&map, Pos(2, 0)), 20);
+        assert_eq!(find_tailhead_rating(&map, Pos(4, 0)), 24);
+    }
+
+    #[test]
+    fn test_calculate_sum_of_tailhead_ratings_example() {
+        let map = CharMap::new(EXAMPLE_INPUT.to_string());
+        assert_eq!(calculate_sum_of_tailhead_ratings(&map), 81);
     }
 }

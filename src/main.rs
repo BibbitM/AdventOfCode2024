@@ -172,6 +172,9 @@ fn main() -> io::Result<()> {
 
         let sum_of_tailhead_scores = day_10::calculate_sum_of_tailhead_scores(&topographic_map);
         println!("Day 10: The sum of tailhead scores is **{}**  ", sum_of_tailhead_scores);
+
+        let sum_of_tailhead_ratings = day_10::calculate_sum_of_tailhead_ratings(&topographic_map);
+        println!("Day 10: The sum of tailhead ratings is **{}**  ", sum_of_tailhead_ratings);
     }
 
     Ok(())
