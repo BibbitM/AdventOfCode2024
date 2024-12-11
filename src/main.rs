@@ -1,5 +1,5 @@
 use advent::char_map::CharMap;
-use advent::{day_01, day_02, day_03, day_04, day_05, day_06, day_07, day_08, day_09};
+use advent::{day_01, day_02, day_03, day_04, day_05, day_06, day_07, day_08, day_09, day_10};
 use std::fs::File;
 use std::{fs, io};
 
@@ -161,6 +161,17 @@ fn main() -> io::Result<()> {
 
         let checksum = day_09::calculate_filesystem_checksum_v2_optimized(&input);
         println!("Day 09: After moving whole files the checksum of the filesystem is **{}**  ", checksum);
+    }
+
+    // Day 10
+    {
+        let input = "inputs\\day_10.txt";
+        let input = fs::read_to_string(input).expect("Error: Failed to read file 'inputs\\day_10.txt'");
+
+        let topographic_map = CharMap::new(input.to_string());
+
+        let sum_of_tailhead_scores = day_10::calculate_sum_of_tailhead_scores(&topographic_map);
+        println!("Day 10: The sum of tailhead scores is **{}**  ", sum_of_tailhead_scores);
     }
 
     Ok(())
