@@ -49,6 +49,50 @@ pub fn calculate_number_of_stones_after_blinks(stones: &Vec<u64>, blinks: u32) -
     return total_stones;
 }
 
+fn split_stone_cached(cache: &mut [Vec<u64>; 10], stone: u64, split: u32) -> u64 {
+    if stone < 10 && cache[stone as usize][split as usize] != 0 {
+        return cache[stone as usize][split as usize];
+    }
+
+    let ret;
+
+    let num_digits = num_decimal_digits(stone);
+    if split == 1 {
+        if stone != 0 && num_digits % 2 == 0 {
+            ret = 2;
+        } else {
+            ret = 1;
+        }
+    } else if stone == 0 {
+        ret = split_stone_cached(cache, 1, split - 1);
+    } else if num_digits % 2 == 0 {
+        ret = split_stone_cached(cache, stone / 10_u64.pow(num_digits / 2), split - 1) + split_stone_cached(cache, stone % 10_u64.pow(num_digits / 2), split - 1);
+    } else {
+        ret = split_stone_cached(cache, stone * 2024, split - 1);
+    }
+
+    if stone < 10 {
+        assert!(cache[stone as usize][split as usize] == 0 || cache[stone as usize][split as usize] == ret);
+        cache[stone as usize][split as usize] = ret;
+    }
+
+    return ret;
+}
+
+pub fn calculate_number_of_stones_after_blinks_cached(stones: &Vec<u64>, blinks: u32) -> u64 {
+    let mut cache: [Vec<u64>; 10] = Default::default();
+    for i in 0..10 {
+        cache[i] = Vec::new();
+        cache[i].resize((blinks + 1) as usize, 0);
+    }
+
+    let mut total_stones = 0;
+    for stone in stones {
+        total_stones += split_stone_cached(&mut cache, *stone, blinks);
+    }
+    return total_stones;
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -83,5 +127,12 @@ mod tests {
         let stones = parse_stones(&EXAMPLE_INPUT.to_string());
         assert_eq!(calculate_number_of_stones_after_blinks(&stones, 6), 22);
         assert_eq!(calculate_number_of_stones_after_blinks(&stones, 25), 55312);
+    }
+
+    #[test]
+    fn test_calculate_number_of_stones_after_blinks_cached_example() {
+        let stones = parse_stones(&EXAMPLE_INPUT.to_string());
+        assert_eq!(calculate_number_of_stones_after_blinks_cached(&stones, 6), 22);
+        assert_eq!(calculate_number_of_stones_after_blinks_cached(&stones, 25), 55312);
     }
 }

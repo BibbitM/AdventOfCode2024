@@ -184,8 +184,11 @@ fn main() -> io::Result<()> {
 
         let stones = day_11::parse_stones(&input);
 
-        let num_of_stones = day_11::calculate_number_of_stones_after_blinks(&stones, 25);
+        let num_of_stones = day_11::calculate_number_of_stones_after_blinks_cached(&stones, 25);
         println!("Day 11: The number of stones after 25 blinks is **{}**  ", num_of_stones);
+
+        let num_of_stones = day_11::calculate_number_of_stones_after_blinks_cached(&stones, 75);
+        println!("Day 11: The number of stones after 75 blinks is **{}**  ", num_of_stones);
     }
 
     Ok(())

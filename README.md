@@ -20,3 +20,4 @@ Day 09: After moving whole files the checksum of the filesystem is **63766489866
 Day 10: The sum of tailhead scores is **459**  
 Day 10: The sum of tailhead ratings is **1034**  
 Day 11: The number of stones after 25 blinks is **172484**  
+Day 11: The number of stones after 75 blinks is **205913561055242**  
