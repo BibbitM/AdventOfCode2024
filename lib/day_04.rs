@@ -7,7 +7,7 @@ const MAS_REVERSE: u32 = (('S' as u32) << 0) | (('A' as u32) << 8) | (('M' as u3
 const MAS_MASK: u32 = (('M' as u32 + 'S' as u32) << 0) | (('M' as u32 + 'S' as u32) << 8);
 
 pub struct WordSearch {
-    words: String,
+    words: Vec<char>,
     width: i32,
     height: i32,
 }
@@ -16,7 +16,11 @@ impl WordSearch {
     pub fn new(words: String) -> WordSearch {
         let width = words.find('\n').unwrap() as i32;
         let height = (words.len() as i32) / (width + 1);
-        WordSearch { words, width, height }
+        WordSearch {
+            words: words.chars().collect(),
+            width,
+            height,
+        }
     }
 
     #[inline]
@@ -25,7 +29,7 @@ impl WordSearch {
             return 0 as char;
         }
 
-        return self.words.chars().nth((y * (self.width + 1) + x) as usize).unwrap();
+        return self.words[(y * (self.width + 1) + x) as usize];
     }
 
     #[inline]
