@@ -1,11 +1,11 @@
-﻿struct Matrix<T> {
+﻿pub struct Matrix<T> {
     data: Vec<T>,
     rows: usize,
     cols: usize,
 }
 
 impl<T: Clone> Matrix<T> {
-    fn new(rows: usize, cols: usize, default_value: T) -> Self
+    pub fn new(rows: usize, cols: usize, default_value: T) -> Self
     where
         T: Clone,
     {
@@ -16,17 +16,24 @@ impl<T: Clone> Matrix<T> {
         }
     }
 
-    fn get(&self, row: usize, col: usize) -> &T {
+    pub fn width(&self) -> usize {
+        self.cols
+    }
+    pub fn height(&self) -> usize {
+        self.rows
+    }
+
+    pub fn get(&self, row: usize, col: usize) -> &T {
         assert!(row < self.rows && col < self.cols, "Index out of bounds");
         return &self.data[row * self.cols + col];
     }
 
-    fn get_mut(&mut self, row: usize, col: usize) -> &mut T {
+    pub fn get_mut(&mut self, row: usize, col: usize) -> &mut T {
         assert!(row < self.rows && col < self.cols, "Index out of bounds");
         return &mut self.data[row * self.cols + col];
     }
 
-    fn set(&mut self, row: usize, col: usize, value: T) {
+    pub fn set(&mut self, row: usize, col: usize, value: T) {
         assert!(row < self.rows && col < self.cols, "Index out of bounds");
         self.data[row * self.cols + col] = value;
     }
