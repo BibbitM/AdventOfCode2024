@@ -198,8 +198,9 @@ fn main() -> io::Result<()> {
 
         let garden = CharMap::new(input);
 
-        let price = day_12::calculate_fencing_price(&garden);
-        println!("Day 12: The fencing price is **{}** ", price);
+        let prices = day_12::calculate_fencing_price(&garden);
+        println!("Day 12: The fencing price is **{}** ", prices.0);
+        println!("Day 12: The new fencing price is **{}** ", prices.1);
     }
 
     Ok(())

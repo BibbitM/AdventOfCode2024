@@ -22,3 +22,4 @@ Day 10: The sum of tailhead ratings is **1034**
 Day 11: The number of stones after 25 blinks is **172484**  
 Day 11: The number of stones after 75 blinks is **205913561055242**  
 Day 12: The fencing price is **1400386** 
+Day 12: The new fencing price is **851994** 
