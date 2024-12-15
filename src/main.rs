@@ -1,5 +1,5 @@
 use advent::char_map::CharMap;
-use advent::{day_01, day_02, day_03, day_04, day_05, day_06, day_07, day_08, day_09, day_10, day_11};
+use advent::{day_01, day_02, day_03, day_04, day_05, day_06, day_07, day_08, day_09, day_10, day_11, day_12};
 use std::fs::File;
 use std::{fs, io};
 
@@ -189,6 +189,17 @@ fn main() -> io::Result<()> {
 
         let num_of_stones = day_11::calculate_number_of_stones_after_blinks_cached(&stones, 75);
         println!("Day 11: The number of stones after 75 blinks is **{}**  ", num_of_stones);
+    }
+
+    // Day 12
+    {
+        let input = "inputs\\day_12.txt";
+        let input = fs::read_to_string(input).expect("Error: Failed to read file 'inputs\\day_12.txt'");
+
+        let garden = CharMap::new(input);
+
+        let price = day_12::calculate_fencing_price(&garden);
+        println!("Day 12: The fencing price is **{}** ", price);
     }
 
     Ok(())
