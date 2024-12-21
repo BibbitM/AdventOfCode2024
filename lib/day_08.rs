@@ -312,7 +312,7 @@ mod tests {
 
     #[test]
     fn test_find_start_position() {
-        let antennas_map = CharMap::new(EXAMPLE_INPUT.to_string());
+        let antennas_map = CharMap::new(&EXAMPLE_INPUT.to_string());
 
         let antennas = gather_antennas(&antennas_map);
 
@@ -323,7 +323,7 @@ mod tests {
 
     #[test]
     fn test_find_antinodes() {
-        let antennas_map = CharMap::new(EXAMPLE_INPUT.to_string());
+        let antennas_map = CharMap::new(&EXAMPLE_INPUT.to_string());
         let antennas = gather_antennas(&antennas_map);
         let antinodes = find_antinodes(&antennas, &antennas_map);
 
@@ -332,7 +332,7 @@ mod tests {
 
     #[test]
     fn test_find_antinodes_sort_dedup() {
-        let antennas_map = CharMap::new(EXAMPLE_INPUT.to_string());
+        let antennas_map = CharMap::new(&EXAMPLE_INPUT.to_string());
         let antennas = gather_antennas(&antennas_map);
         let antinodes = find_antinodes_sort_dedup(&antennas, &antennas_map);
 
@@ -341,7 +341,7 @@ mod tests {
 
     #[test]
     fn test_find_antinodes_hash_set() {
-        let antennas_map = CharMap::new(EXAMPLE_INPUT.to_string());
+        let antennas_map = CharMap::new(&EXAMPLE_INPUT.to_string());
         let antennas = gather_antennas(&antennas_map);
         let antinodes = find_antinodes_hash_set(&antennas, &antennas_map);
 
@@ -350,7 +350,7 @@ mod tests {
 
     #[test]
     fn test_find_antinodes_in_line() {
-        let antennas_map = CharMap::new(EXAMPLE_INPUT.to_string());
+        let antennas_map = CharMap::new(&EXAMPLE_INPUT.to_string());
         let antennas = gather_antennas(&antennas_map);
         let antinodes = find_antinodes_in_line(&antennas, &antennas_map);
 
@@ -359,7 +359,7 @@ mod tests {
 
     #[test]
     fn test_find_antinodes_in_line_sort_dedup() {
-        let antennas_map = CharMap::new(EXAMPLE_INPUT.to_string());
+        let antennas_map = CharMap::new(&EXAMPLE_INPUT.to_string());
         let antennas = gather_antennas(&antennas_map);
         let antinodes = find_antinodes_in_line_sort_dedup(&antennas, &antennas_map);
 
@@ -368,7 +368,7 @@ mod tests {
 
     #[test]
     fn test_find_antinodes_in_line_hash_set() {
-        let antennas_map = CharMap::new(EXAMPLE_INPUT.to_string());
+        let antennas_map = CharMap::new(&EXAMPLE_INPUT.to_string());
         let antennas = gather_antennas(&antennas_map);
         let antinodes = find_antinodes_in_line_hash_set(&antennas, &antennas_map);
 

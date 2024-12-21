@@ -163,7 +163,7 @@ mod tests {
 
     #[test]
     fn test_find_start_position() {
-        let guard_map = CharMap::new(INPUT.to_string());
+        let guard_map = CharMap::new(&INPUT.to_string());
         let (x, y) = find_start_position(&guard_map);
         assert_eq!(x, 2);
         assert_eq!(y, 2);
@@ -171,28 +171,28 @@ mod tests {
 
     #[test]
     fn test_move_guard() {
-        let mut guard_map = CharMap::new(INPUT.to_string());
+        let mut guard_map = CharMap::new(&INPUT.to_string());
         let distinct_positions = move_guard(&mut guard_map);
         assert_eq!(distinct_positions, 12);
     }
 
     #[test]
     fn test_move_guard_example() {
-        let mut guard_map = CharMap::new(EXAMPLE_INPUT.to_string());
+        let mut guard_map = CharMap::new(&EXAMPLE_INPUT.to_string());
         let distinct_positions = move_guard(&mut guard_map);
         assert_eq!(distinct_positions, 41);
     }
 
     #[test]
     fn test_block_guard_example() {
-        let mut guard_map = CharMap::new(EXAMPLE_INPUT.to_string());
+        let mut guard_map = CharMap::new(&EXAMPLE_INPUT.to_string());
         let obstruction_positions = block_guard(&mut guard_map);
         assert_eq!(obstruction_positions, 6);
     }
 
     #[test]
     fn test_block_guard_assign_map_example() {
-        let mut guard_map = CharMap::new(EXAMPLE_INPUT.to_string());
+        let mut guard_map = CharMap::new(&EXAMPLE_INPUT.to_string());
         let obstruction_positions = block_guard_assign_map(&mut guard_map);
         assert_eq!(obstruction_positions, 6);
     }

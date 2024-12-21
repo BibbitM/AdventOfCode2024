@@ -6,7 +6,7 @@
 }
 
 impl CharMap {
-    pub fn new(input: String) -> CharMap {
+    pub fn new(input: &String) -> CharMap {
         let pos_n = input.find('\n');
         let pos_r = input.find('\r');
         let mut width = 0;
@@ -79,14 +79,14 @@ mod tests {
 
     #[test]
     fn test_get_size() {
-        let guard_map = CharMap::new(INPUT.to_string());
+        let guard_map = CharMap::new(&INPUT.to_string());
         assert_eq!(guard_map.width, 6);
         assert_eq!(guard_map.height, 5);
     }
 
     #[test]
     fn test_get() {
-        let guard_map = CharMap::new(INPUT.to_string());
+        let guard_map = CharMap::new(&INPUT.to_string());
         assert_eq!(guard_map.get(0, 0), '.');
         assert_eq!(guard_map.get(2, 0), '#');
         assert_eq!(guard_map.get(5, 0), '.');
@@ -96,7 +96,7 @@ mod tests {
 
     #[test]
     fn test_get_outside_bounds() {
-        let guard_map = CharMap::new(INPUT.to_string());
+        let guard_map = CharMap::new(&INPUT.to_string());
         assert_eq!(guard_map.get(6, 0), 0 as char);
         assert_eq!(guard_map.get(0, 5), 0 as char);
         assert_eq!(guard_map.get(6, 5), 0 as char);
@@ -108,7 +108,7 @@ mod tests {
 
     #[test]
     fn test_set() {
-        let mut guard_map = CharMap::new(INPUT.to_string());
+        let mut guard_map = CharMap::new(&INPUT.to_string());
         guard_map.set(0, 0, 'X');
         assert_eq!(guard_map.get(0, 0), 'X');
         guard_map.set(2, 2, 'X');

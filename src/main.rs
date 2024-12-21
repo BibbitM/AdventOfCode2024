@@ -104,7 +104,7 @@ fn main() -> io::Result<()> {
         let input = "inputs\\day_06.txt";
         let input = fs::read_to_string(input).expect("Error: Failed to read file 'inputs\\day_06.txt'");
 
-        let mut guard_map = CharMap::new(input);
+        let mut guard_map = CharMap::new(&input);
         let mut guard_map_to_block = guard_map.clone();
 
         let dinstinct_positions = day_06::move_guard(&mut guard_map);
@@ -140,7 +140,7 @@ fn main() -> io::Result<()> {
         let input = "inputs\\day_08.txt";
         let input = fs::read_to_string(input).expect("Error: Failed to read file 'inputs\\day_08.txt'");
 
-        let antennas_map = CharMap::new(input.to_string());
+        let antennas_map = CharMap::new(&input);
         let antennas = day_08::gather_antennas(&antennas_map);
 
         let antinodes = day_08::find_antinodes_sort_dedup(&antennas, &antennas_map);
@@ -168,7 +168,7 @@ fn main() -> io::Result<()> {
         let input = "inputs\\day_10.txt";
         let input = fs::read_to_string(input).expect("Error: Failed to read file 'inputs\\day_10.txt'");
 
-        let topographic_map = CharMap::new(input.to_string());
+        let topographic_map = CharMap::new(&input);
 
         let sum_of_tailhead_scores = day_10::calculate_sum_of_tailhead_scores(&topographic_map);
         println!("Day 10: The sum of tailhead scores is **{}**  ", sum_of_tailhead_scores);
@@ -196,7 +196,7 @@ fn main() -> io::Result<()> {
         let input = "inputs\\day_12.txt";
         let input = fs::read_to_string(input).expect("Error: Failed to read file 'inputs\\day_12.txt'");
 
-        let garden = CharMap::new(input);
+        let garden = CharMap::new(&input);
 
         let prices = day_12::calculate_fencing_price(&garden);
         println!("Day 12: The fencing price is **{}** ", prices.0);

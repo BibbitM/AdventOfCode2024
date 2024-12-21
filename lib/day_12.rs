@@ -151,19 +151,19 @@ MMMISSJEEE
 
     #[test]
     fn test_calculate_fencing_price_simple() {
-        let garden = CharMap::new(SIMPLE_INPUT.to_string());
+        let garden = CharMap::new(&SIMPLE_INPUT.to_string());
         assert_eq!(calculate_fencing_price(&garden).0, 140);
     }
 
     #[test]
     fn test_calculate_fencing_price_another() {
-        let garden = CharMap::new(ANOTHER_INPUT.to_string());
+        let garden = CharMap::new(&ANOTHER_INPUT.to_string());
         assert_eq!(calculate_fencing_price(&garden).0, 772);
     }
 
     #[test]
     fn test_calculate_fencing_price_example() {
-        let garden = CharMap::new(EXAMPLE_INPUT.to_string());
+        let garden = CharMap::new(&EXAMPLE_INPUT.to_string());
         let (price_v1, price_v2) = calculate_fencing_price(&garden);
         assert_eq!(price_v1, 1930);
         assert_eq!(price_v2, 1206);

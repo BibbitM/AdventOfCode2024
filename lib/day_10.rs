@@ -104,27 +104,27 @@ mod tests {
 8765
 9876
 "#;
-        let map = CharMap::new(input.to_string());
+        let map = CharMap::new(&input.to_string());
 
         assert_eq!(find_tailhead_score(&map, Pos(0, 0)), 1);
     }
 
     #[test]
     fn test_calculate_sum_of_tailhead_scores_example() {
-        let map = CharMap::new(EXAMPLE_INPUT.to_string());
+        let map = CharMap::new(&EXAMPLE_INPUT.to_string());
         assert_eq!(calculate_sum_of_tailhead_scores(&map), 36);
     }
 
     #[test]
     fn test_find_tailhead_rating() {
-        let map = CharMap::new(EXAMPLE_INPUT.to_string());
+        let map = CharMap::new(&EXAMPLE_INPUT.to_string());
         assert_eq!(find_tailhead_rating(&map, Pos(2, 0)), 20);
         assert_eq!(find_tailhead_rating(&map, Pos(4, 0)), 24);
     }
 
     #[test]
     fn test_calculate_sum_of_tailhead_ratings_example() {
-        let map = CharMap::new(EXAMPLE_INPUT.to_string());
+        let map = CharMap::new(&EXAMPLE_INPUT.to_string());
         assert_eq!(calculate_sum_of_tailhead_ratings(&map), 81);
     }
 }

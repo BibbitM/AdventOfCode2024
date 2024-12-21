@@ -7,7 +7,7 @@ fn day_08_part_one_benchmark(c: &mut Criterion) {
     let input = "inputs\\day_08.txt";
     let input = fs::read_to_string(input).expect("Error: Failed to read file 'inputs\\day_08.txt'");
 
-    let antennas_map = CharMap::new(input.to_string());
+    let antennas_map = CharMap::new(&input);
     let antennas = day_08::gather_antennas(&antennas_map);
 
     let mut group = c.benchmark_group("day_08__part_one");
@@ -23,7 +23,7 @@ fn day_08_part_two_benchmark_part_two(c: &mut Criterion) {
     let input = "inputs\\day_08.txt";
     let input = fs::read_to_string(input).expect("Error: Failed to read file 'inputs\\day_08.txt'");
 
-    let antennas_map = CharMap::new(input.to_string());
+    let antennas_map = CharMap::new(&input);
     let antennas = day_08::gather_antennas(&antennas_map);
 
     let mut group = c.benchmark_group("day_08__part_two");
